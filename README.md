@@ -1,105 +1,48 @@
-<p align="center"><a href="https://laravel.com" target="_blank"><img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" width="400" alt="Laravel Logo"></a></p>
-
-<p align="center">
-<a href="https://github.com/laravel/framework/actions"><img src="https://github.com/laravel/framework/workflows/tests/badge.svg" alt="Build Status"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/dt/laravel/framework" alt="Total Downloads"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/v/laravel/framework" alt="Latest Stable Version"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/l/laravel/framework" alt="License"></a>
-</p>
-
-## Commands
-
-# Create a new Laravel project
-laravel new job-board-v2
-
-# Go into the project folder
+Laravel Job Board (Beginner to Pro)A robust, full-stack Job Board application built with Laravel 12. This project demonstrates the progression from a basic "Hello World" app to a complex system with Authentication, Role-Based Access Control (RBAC), and Employer Management.🚀 Features🔹 Public InterfaceJob Listings: Clean, responsive grid layout displaying available jobs.Job Details: View salary, description, and employer details.🔹 Authentication (Laravel Breeze)Secure Login & Registration: Built-in auth system.Password Reset: Standard email-based recovery.Dashboard: Protected area for logged-in users.🔹 Role-Based Access Control (RBAC)Authorization Gates: Routes protected by can:manage-jobs middleware.Admin/Employer Role:Create Jobs: Post new listings.Edit Jobs: Update salaries and titles.Delete Jobs: Remove listings.User Management: Special dashboard to view users and toggle their Admin status.Regular Users: Read-only access to job listings.⚙️ Installation Guide (How to run this project)If you are setting this up on a new machine or cloning the repository, follow these steps:Clone the repositorygit clone [https://github.com/yourusername/job-board-v2.git](https://github.com/yourusername/job-board-v2.git)
 cd job-board-v2
+Install PHP Dependenciescomposer install
+Install Frontend Dependenciesnpm install
+npm run build
+Environment Setupcp .env.example .env
+php artisan key:generate
+Database Setup (SQLite)Windows (PowerShell):New-Item -ItemType File -Path database/database.sqlite
+Mac/Linux:touch database/database.sqlite
+Run Migrationsphp artisan migrate
+Start the Serverphp artisan serve
+🔑 Usage: Making Yourself an AdminBy default, all new registrations are Regular Users (Read-Only). To test Admin features, you must promote a user via the command line.Register a new account in the browser.Open your terminal and run Tinker:php artisan tinker
+Run the following commands:// Get the first user
+$user = App\Models\User::first();
 
-# Open the project in VS Code
-code .
+// Promote to Admin
+$user->is_employer = true;
+$user->save();
+Refresh the website. You will now see the "Create Job" and "Manage Users" buttons.🛠 Building Process (Command Log)For educational purposes, here is the chronological history of commands used to build this application from scratch.1. Project Initialization# Create project using Laravel Installer
+laravel new job-board-v2
+# Options selected: SQLite Database, No Starter Kit (initially)
 
-# Start the local development server (The website runs at http://127.0.0.1:8000)
+# Start local server
 php artisan serve
-# Create a Model (Job.php) AND a Migration file at the same time
+2. Core CRUD Logic# Generate Model & Migration
 php artisan make:model Job -m
 
-# Create a Controller (JobController.php)
+# Generate Controller
 php artisan make:controller JobController
 
-# Create a Migration file to add columns to an EXISTING table
-php artisan make:migration add_is_employer_to_users_table --table=users
-php artisan make:migration add_user_id_to_jobs_table --table=jobs
-
-# Create a User Controller for the Admin dashboard
-php artisan make:controller UserController
-# Run pending migrations (Update the database structure)
+# Migrate Database
 php artisan migrate
-
-# DANGER: Delete all data and tables, then re-build from scratch
-# (We used this when we got the "Table already exists" or "No column" errors)
-php artisan migrate:fresh
-
-# Open the interactive PHP shell (To manually add data or test logic)
-php artisan tinker
-# Download the Breeze package
+3. Adding Authentication# Install Breeze Package
 composer require laravel/breeze --dev
 
-# Run the Breeze installer (Generates Auth views, routes, and controllers)
+# Run Breeze Installer (Blade Stack)
 php artisan breeze:install
+4. Database Schema Updates# Add Admin Flag to Users
+php artisan make:migration add_is_employer_to_users_table --table=users
 
-# Install JavaScript dependencies (required for Tailwind CSS)
-npm install
+# Link Jobs to Users
+php artisan make:migration add_user_id_to_jobs_table --table=jobs
 
-# Compile the CSS and JavaScript assets (Makes the site look pretty)
-npm run build
-
-## About Laravel
-
-Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable and creative experience to be truly fulfilling. Laravel takes the pain out of development by easing common tasks used in many web projects, such as:
-
-- [Simple, fast routing engine](https://laravel.com/docs/routing).
-- [Powerful dependency injection container](https://laravel.com/docs/container).
-- Multiple back-ends for [session](https://laravel.com/docs/session) and [cache](https://laravel.com/docs/cache) storage.
-- Expressive, intuitive [database ORM](https://laravel.com/docs/eloquent).
-- Database agnostic [schema migrations](https://laravel.com/docs/migrations).
-- [Robust background job processing](https://laravel.com/docs/queues).
-- [Real-time event broadcasting](https://laravel.com/docs/broadcasting).
-
-Laravel is accessible, powerful, and provides tools required for large, robust applications.
-
-## Learning Laravel
-
-Laravel has the most extensive and thorough [documentation](https://laravel.com/docs) and video tutorial library of all modern web application frameworks, making it a breeze to get started with the framework. You can also check out [Laravel Learn](https://laravel.com/learn), where you will be guided through building a modern Laravel application.
-
-If you don't feel like reading, [Laracasts](https://laracasts.com) can help. Laracasts contains thousands of video tutorials on a range of topics including Laravel, modern PHP, unit testing, and JavaScript. Boost your skills by digging into our comprehensive video library.
-
-## Laravel Sponsors
-
-We would like to extend our thanks to the following sponsors for funding Laravel development. If you are interested in becoming a sponsor, please visit the [Laravel Partners program](https://partners.laravel.com).
-
-### Premium Partners
-
-- **[Vehikl](https://vehikl.com)**
-- **[Tighten Co.](https://tighten.co)**
-- **[Kirschbaum Development Group](https://kirschbaumdevelopment.com)**
-- **[64 Robots](https://64robots.com)**
-- **[Curotec](https://www.curotec.com/services/technologies/laravel)**
-- **[DevSquad](https://devsquad.com/hire-laravel-developers)**
-- **[Redberry](https://redberry.international/laravel-development)**
-- **[Active Logic](https://activelogic.com)**
-
-## Contributing
-
-Thank you for considering contributing to the Laravel framework! The contribution guide can be found in the [Laravel documentation](https://laravel.com/docs/contributions).
-
-## Code of Conduct
-
-In order to ensure that the Laravel community is welcoming to all, please review and abide by the [Code of Conduct](https://laravel.com/docs/contributions#code-of-conduct).
-
-## Security Vulnerabilities
-
-If you discover a security vulnerability within Laravel, please send an e-mail to Taylor Otwell via [taylor@laravel.com](mailto:taylor@laravel.com). All security vulnerabilities will be promptly addressed.
-
-## License
-
-The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
+# Apply Changes
+php artisan migrate
+5. Admin Features# Controller for managing users
+php artisan make:controller UserController
+📂 Project StructureFile PathDescriptionroutes/web.phpThe "Map". Contains all URLs, Middleware groups (auth, can:manage-jobs), and route definitions.app/Models/Job.phpThe "Blueprint". Defines $fillable fields for security and the belongsTo(User) relationship.app/Http/Controllers/JobController.phpThe "Logic". Handles listing (index), creating (store), and editing (update) jobs.app/Http/Controllers/UserController.phpThe "Admin Logic". Handles listing users and toggling their Admin status.app/Providers/AppServiceProvider.phpThe "Gatekeeper". Defines the manage-jobs gate logic.resources/views/jobs/The "Face". Contains Blade templates (index, create, edit) styled with Tailwind CSS.🐛 Troubleshooting Common Issues1. "Table 'jobs' already exists"Cause: Creating a migration for a table that is already in the database.Fix: Run php artisan migrate:fresh to wipe the database and rebuild it.2. "MassAssignmentException"Cause: Trying to save data (like Job::create) without whitelisting the columns in the Model.Fix: Add protected $fillable = ['title', 'salary']; to app/Models/Job.php.3. "MethodNotAllowedHttpException" (GET vs POST)Cause: Trying to submit a form to a route defined as GET, or vice versa.Fix: Check routes/web.php. Ensure your Form <form method="POST"> matches a Route::post(...).4. "Route [dashboard] not defined"Cause: Removing the default Breeze dashboard route without adding a replacement.Fix: Add a redirect route in web.php: Route::get('/dashboard', fn() => redirect('/jobs'))->name('dashboard');.
